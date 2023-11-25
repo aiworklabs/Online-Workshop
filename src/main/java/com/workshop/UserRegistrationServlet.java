@@ -16,8 +16,15 @@ public class UserRegistrationServlet extends HttpServlet {
         String status = request.getParameter("status");
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/workshop", "user", "password");
+            // Load the MySQL JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Replace "jdbc:mysql://localhost:3306/workshop" with the IP address and database name
+            String jdbcUrl = "jdbc:mysql://13.233.230.128:3306/workshop";
+            String username = "root"; // MySQL root user
+            String password = "aiworklabs"; // MySQL root password
+
+            Connection con = DriverManager.getConnection(jdbcUrl, username, password);
 
             String query = "INSERT INTO users (name, email, location, status) VALUES (?, ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(query);
@@ -26,11 +33,19 @@ public class UserRegistrationServlet extends HttpServlet {
             ps.setString(3, location);
             ps.setString(4, status);
 
-            ps.executeUpdate();
+            // Execute the SQL query to insert user data into the database
+            int rowsAffected = ps.executeUpdate();
+
             ps.close();
             con.close();
 
-            response.sendRedirect("success.html");
+            if (rowsAffected > 0) {
+                // Data successfully inserted
+                response.sendRedirect("success.html");
+            } else {
+                // Insertion failed
+                response.sendRedirect("error.html");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.html");
