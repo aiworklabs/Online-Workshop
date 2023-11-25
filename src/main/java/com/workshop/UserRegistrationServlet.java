@@ -20,7 +20,7 @@ public class UserRegistrationServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Replace "jdbc:mysql://localhost:3306/workshop" with the IP address and database name
-            String jdbcUrl = "jdbc:mysql://13.233.230.128:3306/workshop";
+            String jdbcUrl = "jdbc:mysql://http://13.233.230.128:3306/workshop";
             String username = "root"; // MySQL root user
             String password = "aiworklabs"; // MySQL root password
 
